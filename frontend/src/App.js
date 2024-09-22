@@ -1,16 +1,25 @@
 import React, { useState } from 'react';
 import './styles/index.css';
-import logo from './utils/TheTalk.png';
-
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import Home from "./components/Home";
+import Login from './components/Login';
+import SignUp from './components/SignUp';
 const App = () => {
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div className="flex items-center space-x-4 mb-8">
-        <img src={logo} alt="Weather Logo" className="h-14 w-14" />
-        <h2 className="text-4xl font-bold" style={{fontFamily:"cursive", color:"#7091E6"}}>The Talk </h2>
-      </div>
+    <div>
+    <BrowserRouter>
+      <ToastContainer />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+    </BrowserRouter>
+
     </div>
+
   );
 };
 
