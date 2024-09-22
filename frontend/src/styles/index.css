@@ -108,7 +108,7 @@ body {
 }
 
 #signup-button:hover {
-  background-image: linear-gradient(to right, #3D52A0, #7091E6,  #3D52A0);
+  background-image: linear-gradient(180deg, #3D52A0, #7091E6);
 }
 
 #signup-google {
@@ -260,7 +260,7 @@ body {
 }
 
 #login-button:hover {
-  background-image: linear-gradient(to right, #3D52A0, #7091E6,  #3D52A0);
+  background-image: linear-gradient(180deg, #3D52A0, #7091E6);
 }
 
 #login-google {
