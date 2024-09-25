@@ -10,8 +10,8 @@ const App = () => {
   return (
     <div>
     <BrowserRouter>
-      <ToastContainer />
-        <Routes>
+    <ToastContainer position="top-right" autoClose={5000} />
+    <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />

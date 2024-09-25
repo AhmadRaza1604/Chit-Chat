@@ -21,7 +21,7 @@ const secretKey = "Ahmad";
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     const newUser = new User({
-      name: req.body.name,
+      username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
     });
@@ -29,11 +29,11 @@ const secretKey = "Ahmad";
     await newUser.save();
 
     // Generate a 6-digit pin
-    const verificationPin = Math.floor(100000 + Math.random() * 900000).toString();
+    // const verificationPin = Math.floor(100000 + Math.random() * 900000).toString();
     
     // newUser.verificationPin = verificationPin;
     // newUser.verificationPinCreatedAt=new Date();
-    await newUser.save();
+    // await newUser.save();
 
     // const mailOptions = {
     //   from: '"TourToPK" <tourtopk.official@gmail.com>', // Replace with your email
@@ -43,6 +43,7 @@ const secretKey = "Ahmad";
     // };
     // await transporter.sendMail(mailOptions);
     console.log('Signup process completed successfully.');
+    res.status(201).json({ message: 'User registered successfully!' });
 
     // res.json({ message: 'Verification pin sent. Check your email to verify.' });
   } catch (error) {
@@ -205,13 +206,9 @@ router.post('/login', async (req, res) => {
             let user; 
             user= await User.findOne({ email: req.body.email });
             
-            if (!user) {
-                user= await Partner.findOne({name: req.body.email});
                   if(!user){
                     return res.status(401).json({ message: 'User not found!' });
                 }
-            
-              }
               
             const passwordMatch = await bcrypt.compare(req.body.password, user.password);
     

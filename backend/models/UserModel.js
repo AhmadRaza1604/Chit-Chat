@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  name: {
+  username: {
     type: String,
     required: true,
   },
@@ -13,12 +13,10 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: true,
     unique: true,
   },
   password: {
     type: String,
-    required: true,
   },
   image:{
     type: String,
@@ -43,6 +41,6 @@ userSchema.methods.generateVerificationToken = function () {
   this.verificationToken = crypto.randomBytes(20).toString('hex');
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('users', userSchema);
 
 module.exports = User;

@@ -66,7 +66,9 @@ body {
   margin-bottom: 8px;
   margin-left: 8px;
 }
-
+.form-input.border-red-500 {
+  border-color: #f87171 !important; /* Red color for error border */
+}
 #signup-username,
 #signup-email,
 #signup-password,
