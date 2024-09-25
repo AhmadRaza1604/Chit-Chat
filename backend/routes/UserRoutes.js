@@ -218,7 +218,7 @@ router.post('/login', async (req, res) => {
             // if(user.isVerified===false){
             //     return res.status(401).json({ message: 'User is not verified! Reset Password to verify.' });
             // }
-            const token = jwt.sign({ userId: user._id, name: user.name, userEmail:user.email }, secretKey, {
+            const token = jwt.sign({ userId: user._id, username: user.username, userEmail:user.email }, secretKey, {
                 expiresIn: '30m',
             });
     

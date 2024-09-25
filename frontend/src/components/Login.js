@@ -5,16 +5,19 @@ import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // Importing eye icons
 import logo from '../utils/TheTalk.png'; // Importing logo image
 import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from "../AuthContext";
 
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
+  const {isLoggedIn, login, setVerificationPurpose, userName } = useAuth();
 
   // Toggle password visibility
   const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
@@ -46,11 +49,17 @@ const Login = () => {
 
       if (response.status === 200) {
         const token = response.data.token;
-        localStorage.setItem('token', token); // Store the token in local storage
+        const decodedToken = jwtDecode(token);
 
-        toast.success('Login successful!', {
+        const userName = decodedToken.username;
+        const userEmail = decodedToken.userEmail;
+        const userId = decodedToken.userId;
+
+        localStorage.setItem('token', token); // Store the token in local storage
+        login(userName, userEmail, userId);
+        toast.success(`Login successful! Welcome ${userName}`, {
           onClose: () => {
-            navigate('/'); // Navigate to home page on successful login
+            navigate('/dashboard'); // Navigate to home page on successful login
           },
         });
       }
