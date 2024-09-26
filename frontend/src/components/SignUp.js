@@ -44,41 +44,42 @@ const Signup = () => {
       .required('Confirm Password is required'),
   });
 
+  // Set mode to 'onChange' for real-time validation
   const { register, handleSubmit, formState: { errors }, reset } = useForm({
     resolver: yupResolver(validationSchema),
+    mode: 'onChange',  // Validation occurs as the user types
   });
 
-// Function to handle form submission
-const onSubmit = async (data) => {
-  try {
-    // Make API call
-    const response = await axios.post('http://localhost:1604/user/signup', {
-      username: data.username,
-      email: data.email,
-      password: data.password,
-    });
-
-    // Log response for debugging
-    console.log('Signup response:', response);
-
-    // Check if response is successful
-    if (response.status === 201) {
-      toast.success(response.data.message || 'Signup successful!', {
-        onClose: () => {
-          reset(); // Reset form fields
-          navigate('/login'); // Redirect to login page
-        },
+  // Function to handle form submission
+  const onSubmit = async (data) => {
+    try {
+      // Make API call
+      const response = await axios.post('http://localhost:1604/user/signup', {
+        username: data.username,
+        email: data.email,
+        password: data.password,
       });
+
+      // Log response for debugging
+      console.log('Signup response:', response);
+
+      // Check if response is successful
+      if (response.status === 201) {
+        toast.success(response.data.message || 'Signup successful!', {
+          onClose: () => {
+            reset(); // Reset form fields
+            navigate('/login'); // Redirect to login page
+          },
+        });
+      }
+    } catch (error) {
+      // Log error for debugging
+      console.error('Signup error:', error);
+
+      const errorMessage = error.response?.data?.message || 'Signup failed. Please try again.';
+      toast.error(errorMessage);
     }
-  } catch (error) {
-    // Log error for debugging
-    console.error('Signup error:', error);
-
-    const errorMessage = error.response?.data?.message || 'Signup failed. Please try again.';
-    toast.error(errorMessage);
-  }
-};
-
+  };
 
   return (
     <div id="signup-container" className="min-h-screen flex flex-col justify-center items-center">
@@ -100,7 +101,7 @@ const onSubmit = async (data) => {
               {...register('username')}
               className={`form-input ${errors.username ? 'border-red-500' : ''}`}
             />
-            {errors.username && <p className="text-red-500 text-sm mt-1">{errors.username.message}</p>}
+            {errors.username && <p className="text-red-500 text-sm mt-1 ml-2">{errors.username.message}</p>}
           </div>
           <div>
             <label htmlFor="email" id="signup-label">Email</label>
@@ -111,7 +112,7 @@ const onSubmit = async (data) => {
               {...register('email')}
               className={`form-input ${errors.email ? 'border-red-500' : ''}`}
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-red-500 text-sm mt-1 ml-2">{errors.email.message}</p>}
           </div>
           <div className="relative">
             <label htmlFor="password" id="signup-label">Password</label>
@@ -125,7 +126,7 @@ const onSubmit = async (data) => {
             <span id="password-toggle" onClick={togglePasswordVisibility}>
               {passwordVisible ? <FaEyeSlash /> : <FaEye />}
             </span>
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            {errors.password && <p className="text-red-500 text-sm mt-1 ml-2">{errors.password.message}</p>}
           </div>
           <div className="relative">
             <label htmlFor="confirm-password" id="signup-label">Confirm Password</label>
@@ -139,7 +140,7 @@ const onSubmit = async (data) => {
             <span id="confirm-password-toggle" onClick={toggleConfirmPasswordVisibility}>
               {confirmPasswordVisible ? <FaEyeSlash /> : <FaEye />}
             </span>
-            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>}
+            {errors.confirmPassword && <p className="text-red-500 text-sm mt-1 ml-2">{errors.confirmPassword.message}</p>}
           </div>
           <button type="submit" id="signup-button">Sign Up</button>
         </form>

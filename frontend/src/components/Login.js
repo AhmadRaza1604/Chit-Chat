@@ -17,7 +17,7 @@ import { useAuth } from "../AuthContext";
 const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
-  const {isLoggedIn, login, setVerificationPurpose, userName } = useAuth();
+  const { login } = useAuth(); // Access login function from AuthContext
 
   // Toggle password visibility
   const togglePasswordVisibility = () => setPasswordVisible(!passwordVisible);
@@ -32,8 +32,10 @@ const Login = () => {
       .required('Password is required'),
   });
 
+  // Configure react-hook-form with real-time validation
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(validationSchema),
+    mode: 'onChange', // Enable validation onChange for real-time feedback
   });
 
   // Function to handle form submission
@@ -91,7 +93,7 @@ const Login = () => {
               {...register('email')}
               className={`form-input ${errors.email ? 'border-red-500' : ''}`}
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+            {errors.email && <p className="text-red-500 text-sm mt-1 ml-2">{errors.email.message}</p>}
           </div>
           <div className="relative">
             <label htmlFor="password" id="login-label">Password</label>
@@ -105,7 +107,7 @@ const Login = () => {
             <span id="password-toggle" onClick={togglePasswordVisibility}>
               {passwordVisible ? <FaEyeSlash /> : <FaEye />}
             </span>
-            {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+            {errors.password && <p className="text-red-500 text-sm mt-1 ml-2">{errors.password.message}</p>}
           </div>
           <div id="login-links">
             <Link to="/forgot-password" className="items-center" id="login-forgot-password">Forgot password?</Link>
